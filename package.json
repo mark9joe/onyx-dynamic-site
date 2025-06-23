@@ -1,5 +1,5 @@
 {
-  "name": "onyx-dynamic-site",
+  "name": "respirework-site",
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev",
