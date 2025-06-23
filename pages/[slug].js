@@ -1,23 +1,23 @@
-// pages/[slug].js
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: "blocking", // Allows dynamic page generation on first visit
-  };
-}
+import { useRouter } from 'next/router';
+import Head from 'next/head';
 
-export async function getStaticProps({ params }) {
-  return {
-    props: { slug: params.slug },
-    revalidate: 86400, // 24 hrs
-  };
-}
+export default function SlugPage() {
+  const router = useRouter();
+  const { slug } = router.query;
 
-export default function Page({ slug }) {
   return (
-    <div style={{ padding: "2rem", textAlign: "center" }}>
-      <h1>✅ Page Live: {slug}</h1>
-      <p>This dynamic route is working!</p>
-    </div>
+    <>
+      <Head>
+        <title>{slug} | Onyx Dynamic Site</title>
+        <meta name="description" content={`Details about ${slug}`} />
+        <meta property="og:title" content={`${slug} | Onyx Dynamic Site`} />
+        <meta property="og:description" content={`Details about ${slug}`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://www.respirework.com/${slug}`} />
+        <meta name="twitter:card" content="summary" />
+      </Head>
+      <h1>{slug}</h1>
+      <p>This is the dynamic page for: {slug}</p>
+    </>
   );
-}
+  }
