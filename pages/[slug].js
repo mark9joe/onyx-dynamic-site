@@ -1,26 +1,26 @@
 export async function getStaticPaths() {
   return {
-    paths: [], // No pre-rendered paths
-    fallback: 'blocking', // Enable on-demand generation
+    paths: [
+      { params: { slug: 'hello-world' } },
+      { params: { slug: 'example' } },
+    ],
+    fallback: true,
   };
 }
 
-export async function getStaticProps(context) {
-  const { slug } = context.params;
-
+export async function getStaticProps({ params }) {
   return {
     props: {
-      slug,
+      slug: params.slug || null,
     },
-    revalidate: 3600, // Optional: revalidate every hour
   };
 }
 
-export default function SlugPage({ slug }) {
+export default function Page({ slug }) {
   return (
-    <div style={{ textAlign: "center", marginTop: "100px" }}>
-      <h1>Dynamic Page for: {slug}</h1>
-      <p>This page was generated on-demand with ISR (Incremental Static Regeneration).</p>
+    <div>
+      <h1>Dynamic Page: {slug}</h1>
+      <p>This page was generated dynamically using [slug].js</p>
     </div>
   );
 }
