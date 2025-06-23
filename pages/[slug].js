@@ -1,23 +1,39 @@
-import { useRouter } from 'next/router';
 import Head from 'next/head';
 
-export default function SlugPage() {
-  const router = useRouter();
-  const { slug } = router.query;
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+}
+
+export async function getStaticProps({ params }) {
+  return {
+    props: { slug: params.slug },
+    revalidate: 86400,
+  };
+}
+
+export default function Page({ slug }) {
+  const [niche, location] = slug.split('_');
 
   return (
     <>
       <Head>
-        <title>{slug} | Onyx Dynamic Site</title>
-        <meta name="description" content={`Details about ${slug}`} />
-        <meta property="og:title" content={`${slug} | Onyx Dynamic Site`} />
-        <meta property="og:description" content={`Details about ${slug}`} />
+        <title>{`${niche.toUpperCase()} in ${location.toUpperCase()} | RespireWork`}</title>
+        <meta name="description" content={`Latest in ${niche} from ${location}.`} />
+        <meta property="og:title" content={`${niche.toUpperCase()} in ${location.toUpperCase()} | RespireWork`} />
+        <meta property="og:description" content={`Explore ${niche} updates from ${location}.`} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`https://www.respirework.com/${slug}`} />
-        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href={`https://www.respirework.com/${slug}`} />
       </Head>
-      <h1>{slug}</h1>
-      <p>This is the dynamic page for: {slug}</p>
+
+      <main style={{ padding: '2rem', textAlign: 'center' }}>
+        <h1>{niche.replace(/-/g, ' ').toUpperCase()} in {location.replace(/-/g, ' ').toUpperCase()}</h1>
+        <p>This page is dynamically generated at run‑time for slug: <strong>{slug}</strong>.</p>
+      </main>
     </>
   );
-  }
+}
