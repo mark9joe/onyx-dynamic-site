@@ -1,8 +1,12 @@
 export default function Home() {
   return (
-    <div>
-      <h1>Welcome to Onyx Dynamic Site</h1>
-      <p>Try opening a dynamic page like /hello-world</p>
+    <div style={{ padding: '2rem', textAlign: 'center' }}>
+      <h1>Welcome to RespireWork</h1>
+      <p>Your dynamic content engine is live. Try visiting a slug below:</p>
+      <ul>
+        <li><a href="/ai-news_usa">ai-news_usa</a></li>
+        <li><a href="/crypto_uk">crypto_uk</a></li>
+      </ul>
     </div>
   );
 }
