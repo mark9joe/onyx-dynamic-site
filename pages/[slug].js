@@ -6,9 +6,9 @@ export default function SlugPage() {
   const { slug } = router.query;
 
   return (
-    <div>
-      <h1>Dynamic Page: {slug}</h1>
-      <p>This is the content for {slug}</p>
+    <div style={{ padding: '2rem', fontFamily: 'Arial' }}>
+      <h1>Dynamic Page</h1>
+      <p>You are viewing: <strong>{slug}</strong></p>
     </div>
   );
 }
