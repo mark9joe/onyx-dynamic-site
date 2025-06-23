@@ -9,29 +9,27 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const slug = params.slug || '';
-  const [niche, country] = slug.split('_');
+  const [topic, country] = slug.split('_');
 
   return {
     props: {
-      title: `${niche?.replace('-', ' ')} in ${country?.toUpperCase()}`,
-      description: `Explore latest updates and resources on ${niche} in ${country}`,
+      title: `${topic?.replace('-', ' ')} in ${country?.toUpperCase()}`,
       slug,
     },
     revalidate: 60,
   };
 }
 
-export default function DynamicPage({ title, description, slug }) {
+export default function Page({ title, slug }) {
   return (
     <>
       <Head>
-        <title>{title} - RespireWork</title>
-        <meta name="description" content={description} />
+        <title>{title} | RespireWork</title>
+        <meta name="description" content={`Explore insights about ${title}`} />
       </Head>
       <main style={{ padding: '2rem' }}>
         <h1>{title}</h1>
-        <p>{description}</p>
-        <p>This dynamic ISR page was generated for: <strong>{slug}</strong></p>
+        <p>Dynamic Page Slug: <strong>{slug}</strong></p>
       </main>
     </>
   );
