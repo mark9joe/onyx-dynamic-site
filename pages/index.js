@@ -5,12 +5,12 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>RespireWork - Passive Traffic Engine</title>
-        <meta name="description" content="Build 1 billion+ passive SEO pages with AI + Vercel." />
+        <title>RespireWork - AI, Crypto, Motivation</title>
+        <meta name="description" content="Explore trending AI, Crypto, Motivation topics" />
       </Head>
-      <main style={{ padding: '2rem', fontFamily: 'Arial, sans-serif' }}>
-        <h1>🚀 RespireWork Engine</h1>
-        <p>Choose a live page:</p>
+      <main style={{ padding: '2rem', fontFamily: 'Arial' }}>
+        <h1>🚀 Welcome to RespireWork</h1>
+        <p>Select a live test page:</p>
         <ul>
           <li><Link href="/ai-news_usa">AI News - USA</Link></li>
           <li><Link href="/crypto_canada">Crypto - Canada</Link></li>
