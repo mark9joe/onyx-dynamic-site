@@ -1,26 +1,21 @@
-export async function getStaticPaths() {
-  return {
-    paths: [
-      { params: { slug: 'hello-world' } },
-      { params: { slug: 'example' } },
-    ],
-    fallback: true,
-  };
-}
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 
-export async function getStaticProps({ params }) {
-  return {
-    props: {
-      slug: params.slug || null,
-    },
-  };
-}
+export default function SlugPage() {
+  const router = useRouter();
+  const { slug } = router.query;
 
-export default function Page({ slug }) {
   return (
-    <div>
-      <h1>Dynamic Page: {slug}</h1>
-      <p>This page was generated dynamically using [slug].js</p>
-    </div>
+    <>
+      <Head>
+        <title>{slug ? `${slug} | Onyx Dynamic Site` : 'Loading...'}</title>
+        <meta name="description" content={`Details about ${slug}`} />
+      </Head>
+
+      <main>
+        <h1>{slug}</h1>
+        <p>This is a dynamic page for: <strong>{slug}</strong></p>
+      </main>
+    </>
   );
 }
