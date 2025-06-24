@@ -1,28 +1,30 @@
 // pages/[slug].js
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 
-export async function getStaticPaths() {
-  return { paths: [], fallback: 'blocking' };
-}
+export default function SlugPage() {
+  const router = useRouter();
+  const { slug } = router.query;
 
-export async function getStaticProps({ params }) {
-  return {
-    props: { slug: params.slug },
-    revalidate: 86400, // Rebuild daily
-  };
-}
+  if (!slug) return <div>Loading...</div>;
 
-export default function Page({ slug }) {
   return (
     <>
       <Head>
-        <title>{slug} | RespireWork</title>
-        <meta name="description" content={`Page about ${slug}`} />
+        <title>{slug} | Onyx Dynamic Site</title>
+        <meta name="description" content={`Details about ${slug}`} />
+        <meta property="og:title" content={`${slug} | Onyx Dynamic Site`} />
+        <meta property="og:description" content={`Details about ${slug}`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://www.respirework.com/${slug}`} />
+        <meta name="twitter:card" content="summary" />
       </Head>
-      <main style={{ padding: '2rem', textAlign: 'center' }}>
-        <h1>{slug.replace(/-/g, ' ').toUpperCase()}</h1>
-        <p>This page was generated on-demand.</p>
-      </main>
+      <h1>Redirecting...</h1>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `window.location.href = "https://www.respirework.com";`
+        }}
+      />
     </>
   );
 }
