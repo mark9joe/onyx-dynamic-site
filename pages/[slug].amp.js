@@ -1,74 +1,73 @@
 // pages/[slug].amp.js
-
 export const config = { amp: true };
 
-export default function AMPPage({ slug }) {
+export default function AMPPage({ slug, article }) {
   return (
-    <html amp>
+    <html ⚡="">
       <head>
         <meta charSet="utf-8" />
         <title>{slug} | Respirework AMP</title>
         <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
-        <meta name="description" content={`Latest trending news in ${slug}`} />
-        <meta property="og:title" content={`${slug} | Respirework AMP`} />
-        <meta property="og:description" content={`Latest trending updates in ${slug}`} />
+        <meta name="description" content={article?.summary || `Latest update on ${slug}`} />
+        <meta property="og:title" content={`${slug} | Respirework`} />
+        <meta property="og:description" content={article?.summary || ''} />
         <meta property="og:url" content={`https://www.respirework.com/${slug}?amp=1`} />
-        <meta name="twitter:card" content="summary" />
-        <style amp-custom>{`
-          body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            line-height: 1.6;
-          }
-          h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-          }
-          p {
-            font-size: 16px;
-            margin-bottom: 16px;
-          }
-          .promo {
-            background: #f9f9f9;
-            padding: 12px;
-            border-left: 4px solid #333;
-            margin: 20px 0;
-          }
-        `}</style>
+        <meta name="twitter:card" content="summary_large_image" />
         <script async src="https://cdn.ampproject.org/v0.js"></script>
+        <style amp-custom>
+          {`
+            body { font-family: Arial; padding: 20px; }
+            h1 { font-size: 24px; }
+            .payhip-banner, .ads { margin: 20px 0; }
+          `}
+        </style>
       </head>
       <body>
-        <h1>Trending Topic: {slug}</h1>
-        <p>
-          Welcome to today's top story in <strong>{slug}</strong>. Stay updated with fresh articles daily powered by Respirework.
-        </p>
+        <h1>{article?.title || `Trending on ${slug}`}</h1>
+        <p>{article?.content || `More updates on ${slug} will appear here.`}</p>
 
-        <div className="promo">
-          <p>🔥 Download our featured eBook: <a href="https://payhip.com/b/yLYxv" target="_blank">The Empyrean #3</a></p>
+        <div className="ads">
+          {/* ✅ PropellerAds embed */}
+          <amp-iframe
+            width="300"
+            height="250"
+            sandbox="allow-scripts allow-same-origin"
+            layout="fixed"
+            frameborder="0"
+            src="https://your-propeller-ads-script-url-here"
+          >
+            <amp-img layout="fill" src="/fallback.png" placeholder></amp-img>
+          </amp-iframe>
         </div>
 
-        <p>
-          Enjoy clean, AMP-optimized content and fast delivery. This is part of our global news & knowledge portal. For more updates, visit <a href="https://www.respirework.com">Respirework.com</a>.
-        </p>
+        <div className="payhip-banner">
+          <a href="https://payhip.com/b/yLYxv" target="_blank">
+            📘 Get the Best eBook Now
+          </a>
+        </div>
 
-        {/* Propeller Ads (AMP Version) */}
-        <amp-ad width="100vw" height="320"
-          type="adsense"
-          data-ad-client="ca-pub-9911531576192254"
-          data-ad-slot="2933560"
-          data-auto-format="rspv"
-          data-full-width="">
-          <div overflow=""></div>
-        </amp-ad>
+        <footer>
+          <small>Powered by Respirework</small>
+        </footer>
       </body>
     </html>
   );
 }
 
 export async function getServerSideProps({ params }) {
+  const { slug } = params;
+
+  // 🔄 Replace this with real article fetch (API, DB, or file)
+  const article = {
+    title: `Why ${slug.replace(/_/g, ' ')} is trending now`,
+    summary: `A deep dive into ${slug}`,
+    content: `This article explains the latest news and trends around ${slug}. More updates coming daily.`,
+  };
+
   return {
     props: {
-      slug: params.slug || "default",
+      slug,
+      article,
     },
   };
 }
