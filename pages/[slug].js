@@ -1,30 +1,34 @@
 // pages/[slug].js
+
 import Head from 'next/head';
 
 export async function getServerSideProps(context) {
   const { slug } = context.params;
 
-  // Sample dynamic article (Replace with real API or JSON source)
-  const trendingArticles = {
+  const articles = {
     'ai-news_usa': {
-      title: 'Top AI Breakthroughs in the USA Today',
-      content: 'AI is reshaping industries across the USA, from healthcare to defense...',
-      tags: ['AI', 'Technology', 'USA'],
+      title: 'AI Breakthroughs Making Headlines in the USA',
+      content: `Artificial Intelligence is disrupting every industry in the USA. From autonomous vehicles to advanced healthcare diagnostics, the AI boom is revolutionizing how we live and work. Startups in Silicon Valley are rapidly adopting generative AI to boost productivity and profitability. The government has announced new funding for AI research, ensuring the USA remains competitive.`,
+      tags: ['AI', 'USA', 'Innovation'],
     },
     'crypto_india': {
-      title: 'Crypto in India: Regulations and New Trends',
-      content: 'Indian crypto adoption is rising despite uncertain legal frameworks...',
+      title: 'Crypto Buzz in India: What You Need to Know',
+      content: `India is witnessing a surge in crypto adoption despite regulatory uncertainty. With over 100 million users, India is now one of the biggest crypto markets. Leading exchanges are adapting to new compliance models, and the government is considering a digital rupee pilot. Stay tuned as the crypto story evolves in India.`,
       tags: ['Crypto', 'India', 'Finance'],
     }
   };
 
-  const article = trendingArticles[slug] || { title: slug, content: 'No content found', tags: [] };
+  const article = articles[slug] || {
+    title: `Topic: ${slug.replace(/_/g, ' ')}`,
+    content: 'Fresh insights and global trends will appear here daily. Stay tuned!',
+    tags: [slug],
+  };
 
   return {
     props: {
       slug,
-      article
-    }
+      article,
+    },
   };
 }
 
@@ -33,38 +37,43 @@ export default function ArticlePage({ slug, article }) {
     <>
       <Head>
         <title>{article.title} | Respirework</title>
-        <meta name="description" content={`Read latest trends on ${slug}`} />
+        <meta name="description" content={article.content.slice(0, 120)} />
         <meta property="og:title" content={article.title} />
-        <meta property="og:description" content={`Daily trending update on ${slug}`} />
+        <meta property="og:description" content={article.content.slice(0, 160)} />
+        <meta property="og:type" content="article" />
       </Head>
 
-      <main style={{ padding: '20px', fontFamily: 'Arial' }}>
+      <main style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
         <h1>{article.title}</h1>
         <p>{article.content}</p>
 
-        {/* ✅ Propeller Ads */}
+        {/* ✅ Propeller Ads Embed */}
         <div dangerouslySetInnerHTML={{ __html: `
           <script async="async" data-cfasync="false" src="//pl19551082.profitablegatecpm.com/b064ce3b57cc3d0d54b7680c5b4d8492/invoke.js"></script>
           <div id="container-b064ce3b57cc3d0d54b7680c5b4d8492"></div>
-        `}} />
+        ` }} />
 
-        {/* ✅ Payhip eBook CTA */}
+        {/* ✅ eBook CTA */}
         <p>
-          📘 Support us & explore: <a href="https://payhip.com/b/yLYxv" target="_blank">Get our Featured eBook</a>
+          📘 Check our bestseller eBook: <a href="https://payhip.com/b/yLYxv" target="_blank" rel="noopener noreferrer">Buy Now</a>
         </p>
 
-        {/* ✅ Lead Form */}
-        <form>
-          <input type="email" placeholder="Enter your email for daily updates" />
-          <button type="submit">Subscribe</button>
+        {/* ✅ Email Lead Capture */}
+        <form style={{ marginTop: '20px' }}>
+          <input type="email" placeholder="Enter your email for daily updates" style={{ padding: '10px', width: '60%' }} />
+          <button type="submit" style={{ padding: '10px' }}>Subscribe</button>
         </form>
 
-        {/* ✅ Related Tags */}
-        <div>
-          <h4>Tags:</h4>
-          <ul>{article.tags.map(tag => <li key={tag}>#{tag}</li>)}</ul>
+        {/* ✅ Tags */}
+        <div style={{ marginTop: '30px' }}>
+          <strong>Tags:</strong>
+          <ul>
+            {article.tags.map((tag) => (
+              <li key={tag}>#{tag}</li>
+            ))}
+          </ul>
         </div>
       </main>
     </>
   );
-}
+          }
