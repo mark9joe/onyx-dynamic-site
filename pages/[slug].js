@@ -1,8 +1,10 @@
 // pages/[slug].js
 
-import Head from 'next/head';
+import Head from 'next/head'; import { useEffect } from 'react'; import Script from 'next/script';
 
-export default function Page({ slug, article }) { return ( <> <Head> <title>{slug} | Respirework</title> <meta name="description" content={article?.summary || Latest update on ${slug}} /> <meta property="og:title" content={${slug} | Respirework} /> <meta property="og:description" content={article?.summary || ''} /> <meta property="og:url" content={https://www.respirework.com/${slug}} /> <meta name="twitter:card" content="summary_large_image" /> </Head>
+export default function Page({ slug, article }) { const country = slug.split('_')[1]?.toLowerCase();
+
+return ( <> <Head> <title>{slug} | Respirework</title> <meta name="description" content={article?.summary || Latest update on ${slug}} /> <meta property="og:title" content={${slug} | Respirework} /> <meta property="og:description" content={article?.summary || ''} /> <meta property="og:url" content={https://www.respirework.com/${slug}} /> <meta name="twitter:card" content="summary_large_image" /> </Head>
 
 <main style={{ padding: '20px', fontFamily: 'Arial' }}>
     <h1>{article?.title || `Trending Topic: ${slug.replace(/_/g, ' ')}`}</h1>
@@ -10,17 +12,18 @@ export default function Page({ slug, article }) { return ( <> <Head> <title>{slu
 
     {/* ✅ Ad Placement */}
     <div style={{ marginTop: '20px' }}>
-      <script async="async" data-cfasync="false"
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-      <ins className="adsbygoogle"
-        style={{ display: 'block' }}
-        data-ad-client="ca-pub-2933560"
-        data-ad-slot="2933560"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
+      <Script id="propeller" strategy="afterInteractive">
+        {`
+          atOptions = {
+            'key' : '2933560',
+            'format' : 'iframe',
+            'height' : 250,
+            'width' : 300,
+            'params' : {} 
+          };
+          document.write('<scr' + 'ipt type="text/javascript" src="//www.propellerclick.com/ads.js"></scr' + 'ipt>');
+        `}
+      </Script>
     </div>
 
     {/* ✅ eBook CTA */}
@@ -28,6 +31,23 @@ export default function Page({ slug, article }) { return ( <> <Head> <title>{slu
       <a href="https://payhip.com/b/yLYxv" target="_blank" rel="noopener noreferrer">
         📘 Buy the trending eBook on Payhip
       </a>
+    </div>
+
+    {/* 🌍 Region Language Notice */}
+    <div style={{ marginTop: '40px', fontStyle: 'italic', color: '#555' }}>
+      {country && (
+        <p>This article is tailored for readers in <b>{country.toUpperCase()}</b>. Translations in your regional language coming soon.</p>
+      )}
+    </div>
+
+    {/* 📚 Related Articles */}
+    <div style={{ marginTop: '40px' }}>
+      <h3>Related Articles</h3>
+      <ul>
+        <li><a href="/crypto_usa">🚀 Crypto Trends in USA</a></li>
+        <li><a href="/ai-news_india">🤖 AI News in India</a></li>
+        <li><a href="/motivation_uk">💡 Motivation Stories UK</a></li>
+      </ul>
     </div>
 
     <footer style={{ marginTop: '50px', fontSize: '0.8em' }}>
@@ -44,4 +64,3 @@ const article = { title: Daily Insight: ${slug.replace(/_/g, ' ')}, summary: Wha
 
 return { props: { slug, article, }, }; }
 
-          
