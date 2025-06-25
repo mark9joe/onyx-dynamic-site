@@ -2,30 +2,31 @@
 export async function getServerSideProps(context) {
   const { slug } = context.params;
 
-  // Fetch article content from your API or a local generator
-  const res = await fetch(`https://your-api-or-logic.com/api/article?slug=${slug}`);
-  const data = await res.json();
+  // Dummy content generation based on slug
+  const content = `<p>Dynamic article for <strong>${slug}</strong></p><p>This content is loaded at request time.</p>`;
+  const meta = {
+    title: `Trending: ${slug.replace(/_/g, ' ')}`,
+    description: `Latest updates on ${slug.replace(/_/g, ' ')}`,
+  };
 
   return {
     props: {
       slug,
-      content: data.content,
-      meta: data.meta || {}, // title, desc, etc.
+      content,
+      meta,
     },
   };
 }
 
-export default function ArticlePage({ slug, content, meta }) {
+export default function DynamicPage({ slug, content, meta }) {
   return (
     <>
       <head>
-        <title>{meta.title || slug} | Respirework</title>
-        <meta name="description" content={meta.description || ''} />
-        <meta property="og:title" content={meta.title || slug} />
-        <meta property="og:description" content={meta.description || ''} />
+        <title>{meta.title}</title>
+        <meta name="description" content={meta.description} />
       </head>
       <main>
-        <h1>{meta.title || slug}</h1>
+        <h1>{meta.title}</h1>
         <article dangerouslySetInnerHTML={{ __html: content }} />
       </main>
     </>
