@@ -1,66 +1,70 @@
 // pages/[slug].js
+import Head from 'next/head';
 
-import Head from 'next/head'; import { useEffect } from 'react'; import Script from 'next/script';
+export async function getServerSideProps(context) {
+  const { slug } = context.params;
 
-export default function Page({ slug, article }) { const country = slug.split('_')[1]?.toLowerCase();
+  // Sample dynamic article (Replace with real API or JSON source)
+  const trendingArticles = {
+    'ai-news_usa': {
+      title: 'Top AI Breakthroughs in the USA Today',
+      content: 'AI is reshaping industries across the USA, from healthcare to defense...',
+      tags: ['AI', 'Technology', 'USA'],
+    },
+    'crypto_india': {
+      title: 'Crypto in India: Regulations and New Trends',
+      content: 'Indian crypto adoption is rising despite uncertain legal frameworks...',
+      tags: ['Crypto', 'India', 'Finance'],
+    }
+  };
 
-return ( <> <Head> <title>{slug} | Respirework</title> <meta name="description" content={article?.summary || Latest update on ${slug}} /> <meta property="og:title" content={${slug} | Respirework} /> <meta property="og:description" content={article?.summary || ''} /> <meta property="og:url" content={https://www.respirework.com/${slug}} /> <meta name="twitter:card" content="summary_large_image" /> </Head>
+  const article = trendingArticles[slug] || { title: slug, content: 'No content found', tags: [] };
 
-<main style={{ padding: '20px', fontFamily: 'Arial' }}>
-    <h1>{article?.title || `Trending Topic: ${slug.replace(/_/g, ' ')}`}</h1>
-    <p>{article?.content || `Fresh update soon about ${slug}.`}</p>
+  return {
+    props: {
+      slug,
+      article
+    }
+  };
+}
 
-    {/* ✅ Ad Placement */}
-    <div style={{ marginTop: '20px' }}>
-      <Script id="propeller" strategy="afterInteractive">
-        {`
-          atOptions = {
-            'key' : '2933560',
-            'format' : 'iframe',
-            'height' : 250,
-            'width' : 300,
-            'params' : {} 
-          };
-          document.write('<scr' + 'ipt type="text/javascript" src="//www.propellerclick.com/ads.js"></scr' + 'ipt>');
-        `}
-      </Script>
-    </div>
+export default function ArticlePage({ slug, article }) {
+  return (
+    <>
+      <Head>
+        <title>{article.title} | Respirework</title>
+        <meta name="description" content={`Read latest trends on ${slug}`} />
+        <meta property="og:title" content={article.title} />
+        <meta property="og:description" content={`Daily trending update on ${slug}`} />
+      </Head>
 
-    {/* ✅ eBook CTA */}
-    <div className="ebook-cta" style={{ marginTop: '30px' }}>
-      <a href="https://payhip.com/b/yLYxv" target="_blank" rel="noopener noreferrer">
-        📘 Buy the trending eBook on Payhip
-      </a>
-    </div>
+      <main style={{ padding: '20px', fontFamily: 'Arial' }}>
+        <h1>{article.title}</h1>
+        <p>{article.content}</p>
 
-    {/* 🌍 Region Language Notice */}
-    <div style={{ marginTop: '40px', fontStyle: 'italic', color: '#555' }}>
-      {country && (
-        <p>This article is tailored for readers in <b>{country.toUpperCase()}</b>. Translations in your regional language coming soon.</p>
-      )}
-    </div>
+        {/* ✅ Propeller Ads */}
+        <div dangerouslySetInnerHTML={{ __html: `
+          <script async="async" data-cfasync="false" src="//pl19551082.profitablegatecpm.com/b064ce3b57cc3d0d54b7680c5b4d8492/invoke.js"></script>
+          <div id="container-b064ce3b57cc3d0d54b7680c5b4d8492"></div>
+        `}} />
 
-    {/* 📚 Related Articles */}
-    <div style={{ marginTop: '40px' }}>
-      <h3>Related Articles</h3>
-      <ul>
-        <li><a href="/crypto_usa">🚀 Crypto Trends in USA</a></li>
-        <li><a href="/ai-news_india">🤖 AI News in India</a></li>
-        <li><a href="/motivation_uk">💡 Motivation Stories UK</a></li>
-      </ul>
-    </div>
+        {/* ✅ Payhip eBook CTA */}
+        <p>
+          📘 Support us & explore: <a href="https://payhip.com/b/yLYxv" target="_blank">Get our Featured eBook</a>
+        </p>
 
-    <footer style={{ marginTop: '50px', fontSize: '0.8em' }}>
-      <p>© {new Date().getFullYear()} Respirework | Auto-generated articles from AI engine</p>
-    </footer>
-  </main>
-</>
+        {/* ✅ Lead Form */}
+        <form>
+          <input type="email" placeholder="Enter your email for daily updates" />
+          <button type="submit">Subscribe</button>
+        </form>
 
-); }
-
-export async function getServerSideProps({ params }) { const { slug } = params;
-
-const article = { title: Daily Insight: ${slug.replace(/_/g, ' ')}, summary: What’s trending now in ${slug.split('_')[1]}, content: This article dives deep into today’s biggest update on ${slug.split('_')[0].toUpperCase()} in ${slug.split('_')[1]}. Stay informed and ahead. };
-
-return { props: { slug, article, }, }; }
-
+        {/* ✅ Related Tags */}
+        <div>
+          <h4>Tags:</h4>
+          <ul>{article.tags.map(tag => <li key={tag}>#{tag}</li>)}</ul>
+        </div>
+      </main>
+    </>
+  );
+}
