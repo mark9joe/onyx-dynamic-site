@@ -1,9 +1,9 @@
+import Head from 'next/head';
+import { getContentForSlug } from '../lib/content';
+
 export default function Page({ slug, content, isBot }) {
-  // Cloak logic
   if (!isBot) {
-    return <>
-      <script>location.href='/'</script>
-    </>;
+    return <meta httpEquiv="refresh" content="0;url=/" />;
   }
   return (
     <>
@@ -11,17 +11,17 @@ export default function Page({ slug, content, isBot }) {
         <title>{slug} | RespireWork</title>
         <meta name="description" content={`Latest on ${slug}`} />
         <meta property="og:title" content={`${slug} | RespireWork`} />
-        <meta property="og:description" content={`Latest on ${slug}`} />
+        <meta property="og:description" content={`Check out ${slug}`} />
       </Head>
-      <article dangerouslySetInnerHTML={{ __html: content.replace(/#offer/g, '<a href="#offer">Offer Here</a>') }} />
+      <article dangerouslySetInnerHTML={{ __html: content?.replace(/#offer/g, `<a href="https://respirework.com/offer">Special Offer</a>`) }} />
     </>
   );
 }
 
 export async function getServerSideProps({ req, params }) {
   const slug = params.slug;
-  const isBot = /bot|spider|crawl/ig.test(req.headers['user-agent'] || '');
-  const content = await generateContentForSlug(slug); // AI or cached
-  // Ping sitemap / index triggers here
+  const ua = req.headers['user-agent'] || '';
+  const isBot = /bot|crawler|spider|slurp|archiver|facebook/i.test(ua);
+  const content = await getContentForSlug(slug);
   return { props: { slug, content, isBot } };
 }
