@@ -11,22 +11,25 @@ export default function Login() {
       localStorage.setItem("auth", "true");
       router.push("/dashboard");
     } else {
-      alert("Wrong password!");
+      alert("Incorrect password!");
     }
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "20vh" }}>
-      <h2>Login to Dashboard</h2>
+    <div style={{ marginTop: "20vh", textAlign: "center" }}>
+      <h1>Login</h1>
       <input
         type="password"
-        placeholder="Enter password"
+        placeholder="Enter dashboard password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        style={{ padding: "10px", width: "250px" }}
+        style={{ padding: "10px", fontSize: "16px", width: "250px" }}
       />
       <br />
-      <button onClick={handleLogin} style={{ marginTop: "10px", padding: "10px 20px" }}>
+      <button
+        onClick={handleLogin}
+        style={{ marginTop: "20px", padding: "10px 20px", fontSize: "16px" }}
+      >
         Login
       </button>
     </div>
