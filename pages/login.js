@@ -11,23 +11,22 @@ export default function Login() {
       localStorage.setItem("auth", "true");
       router.push("/dashboard");
     } else {
-      alert("Incorrect password");
+      alert("Wrong password!");
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <h1 className="text-2xl font-bold mb-4">Dashboard Login</h1>
+    <div style={{ textAlign: "center", marginTop: "20vh" }}>
+      <h2>Login to Dashboard</h2>
       <input
         type="password"
-        className="p-2 border rounded mb-4"
-        placeholder="Enter Password"
+        placeholder="Enter password"
+        value={password}
         onChange={(e) => setPassword(e.target.value)}
+        style={{ padding: "10px", margin: "10px", width: "250px" }}
       />
-      <button
-        onClick={handleLogin}
-        className="px-4 py-2 bg-blue-600 text-white rounded"
-      >
+      <br />
+      <button onClick={handleLogin} style={{ padding: "10px 20px" }}>
         Login
       </button>
     </div>
