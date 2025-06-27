@@ -1,45 +1,57 @@
-// pages/dashboard.js
-
-import Head from 'next/head';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export default function Dashboard() {
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const authStatus = localStorage.getItem("auth");
+    if (authStatus === "true") {
+      setIsAuthenticated(true);
+    } else {
+      router.push("/login");
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("auth");
+    router.push("/login");
+  };
+
+  if (!isAuthenticated) {
+    return null; // Prevent flash of protected content before redirect
+  }
+
   return (
-    <>
-      <Head>
-        <title>Automation Dashboard - RespireWork</title>
-      </Head>
-      <main style={{ fontFamily: 'sans-serif', padding: '2rem', maxWidth: '800px', margin: 'auto' }}>
-        <h1>📊 Automation Dashboard</h1>
-        <p>Welcome to your live dashboard. Here's a snapshot of the passive traffic system.</p>
+    <div className="min-h-screen bg-gray-100 p-8">
+      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold text-gray-700">Welcome to Dashboard</h1>
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+          >
+            Logout
+          </button>
+        </div>
 
-        <section style={{ marginTop: '2rem' }}>
-          <h2>🔄 Live Status</h2>
-          <ul>
-            <li>✅ Article Injection: <strong>Active</strong></li>
-            <li>✅ RSS Feed Submissions: <strong>Scheduled Daily</strong></li>
-            <li>✅ Social Promotion: <strong>Enabled</strong></li>
-            <li>✅ Monetization: <strong>Injected</strong></li>
-          </ul>
-        </section>
-
-        <section style={{ marginTop: '2rem' }}>
-          <h2>📅 Today’s Activity</h2>
-          <ul>
-            <li>Articles Posted: <strong>100,000</strong></li>
-            <li>Comments Dropped: <strong>100,000</strong></li>
-            <li>RSS Feeds Generated: <strong>100,000</strong></li>
-          </ul>
-        </section>
-
-        <section style={{ marginTop: '2rem' }}>
-          <h2>🔗 Useful Links</h2>
-          <ul>
-            <li><a href="https://www.respirework.com" target="_blank">Visit Main Website</a></li>
-            <li><a href="/rss/master-feed.xml" target="_blank">RSS Master Feed</a></li>
-            <li><a href="https://vercel.com/mark9joes-projects/onyx-dynamic-site" target="_blank">Vercel Project</a></li>
-          </ul>
-        </section>
-      </main>
-    </>
+        {/* Replace the section below with your dashboard features */}
+        <div className="grid grid-cols-1 gap-6">
+          <div className="p-4 bg-gray-50 rounded shadow">
+            <h2 className="text-lg font-semibold text-gray-600">Stats</h2>
+            <p>Live content, injection logs, backlinks, RSS feeds etc.</p>
+          </div>
+          <div className="p-4 bg-gray-50 rounded shadow">
+            <h2 className="text-lg font-semibold text-gray-600">Page Indexation</h2>
+            <p>Index status, pings sent to Google/Bing, and traffic reports.</p>
+          </div>
+          <div className="p-4 bg-gray-50 rounded shadow">
+            <h2 className="text-lg font-semibold text-gray-600">Top Keywords</h2>
+            <p>Tracking top-performing keywords for SEO boosts.</p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
