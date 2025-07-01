@@ -1,35 +1,43 @@
 // pages/login.js
-
-import { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useState } from "react";
 
 export default function Login() {
-  const [password, setPassword] = useState('');
-  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+  const [msg, setMsg] = useState("");
 
-  const handleLogin = () => {
-    if (password === 'respire123') {
-      localStorage.setItem('auth', 'true');
-      router.push('/dashboard');
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (email === "admin@respirework.com" && pass === "admin123") {
+      window.location.href = "/dashboard";
     } else {
-      alert('Wrong password!');
+      setMsg("❌ Invalid login credentials");
     }
   };
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '30vh' }}>
-      <h2>Login to Dashboard</h2>
-      <input
-        type="password"
-        placeholder="Enter password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        style={{ padding: '10px', width: '250px' }}
-      />
-      <br /><br />
-      <button onClick={handleLogin} style={{ padding: '10px 20px' }}>
-        Login
-      </button>
+    <div style={{ padding: "2rem", fontFamily: "Arial", maxWidth: 400, margin: "auto" }}>
+      <h2>Login</h2>
+      <form onSubmit={handleLogin}>
+        <input
+          type="email"
+          placeholder="Email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          style={{ width: "100%", padding: 8, marginBottom: 10 }}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          required
+          value={pass}
+          onChange={(e) => setPass(e.target.value)}
+          style={{ width: "100%", padding: 8, marginBottom: 10 }}
+        />
+        <button type="submit" style={{ width: "100%", padding: 10 }}>Login</button>
+        <p style={{ color: "red", marginTop: 10 }}>{msg}</p>
+      </form>
     </div>
   );
 }
